@@ -4,7 +4,8 @@ import apiRoutes from './routes/api';
 import { getApiBaseUrl } from './config/api';
 
 const app = express();
-const port = process.env.PORT || 8000;
+const port = Number(process.env.PORT || 8000);
+const host = process.env.HOST || '0.0.0.0';
 const mongoUri = process.env.MONGO_URI || 'mongodb://127.0.0.1:27017/octofit_db';
 
 app.use(express.json());
@@ -20,8 +21,8 @@ const startServer = async () => {
     await mongoose.connect(mongoUri);
     console.log('Connected to MongoDB');
 
-    app.listen(port, () => {
-      console.log(`Backend running on port ${port}`);
+    app.listen(port, host, () => {
+      console.log(`Backend running on http://${host}:${port}`);
       console.log(`API base URL: ${getApiBaseUrl()}`);
     });
   } catch (error) {
